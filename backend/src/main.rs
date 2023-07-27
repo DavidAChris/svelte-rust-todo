@@ -13,14 +13,12 @@ use tracing::info;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    // Get env variables
     tracing_subscriber::fmt()
         .with_max_level(tracing::Level::INFO)
         // disable printing the name of the module in every log line.
         .with_target(false)
-        // disabling time is handy because CloudWatch will add the ingestion time.
-        // .without_time()
         .init();
+    // Get env variables
     let _ = dotenv().ok();
     let url = std::env::var("DATABASE_URL")?;
     let pool = SqlitePool::connect(&url).await?;
